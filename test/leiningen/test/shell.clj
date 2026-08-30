@@ -115,3 +115,24 @@
                               0)]
         (shell/shell project "command")
         (is (= expected @pump-in))))))
+
+(deftest test-backslash-escaping
+  (let [p {:foo "banana"}]
+    (testing "a backslash before $ suppresses parameter expansion"
+      (is (= (replace-values p "\\${:foo}") "${:foo}")))
+    (testing "a doubled backslash becomes one literal backslash"
+      (is (= (replace-values p "a\\\\b") "a\\b"))
+      (is (= (replace-values p "\\\\${:foo}") "\\banana")))
+    (testing "a backslash before any other character is literal"
+      (is (= (replace-values p "C:\\Users\\savya\\bin") "C:\\Users\\savya\\bin"))
+      (is (= (replace-values p "\\d+\\s*") "\\d+\\s*"))
+      (is (= (replace-values p "\\n") "\\n")))
+    (testing "a trailing lone backslash is preserved"
+      (is (= (replace-values p "abc\\") "abc\\"))
+      (is (= (replace-values p "\\") "\\")))
+    (testing "the same rules apply inside a default value"
+      (is (= (replace-values p "${:missing:-C:\\Users\\bin}") "C:\\Users\\bin"))
+      (is (= (replace-values p "${:missing:-\\d+}") "\\d+"))
+      (is (= (replace-values p "${:missing:-a\\$b}") "a$b"))
+      (is (= (replace-values p "${:missing:-a\\\\b}") "a\\b"))
+      (is (= (replace-values p "${:missing:-a\\}b}") "a}b")))))

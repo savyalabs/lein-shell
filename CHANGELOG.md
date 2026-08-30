@@ -1,5 +1,16 @@
 # lein-shell changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Backslashes in command arguments are no longer eaten. A backslash was
+  consumed before every character, which destroyed Windows paths
+  (`C:\Users\bin`) and regex arguments (`\d+\s*`). A backslash is now an escape
+  character only before `$` and before another backslash (and before `}` inside
+  a `${x:-default}` value); anywhere else, including at the end of an argument,
+  it stays literal. The documented escapes `\${...}` and `\\` are unchanged.
+
 ## [1.0.3] - 2026-08-17
 
 ### Fixed

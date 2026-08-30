@@ -8,8 +8,18 @@
 
 (declare read-expansion)
 
+(defn- escape?
+  "True when the backslash at position i escapes the character after it. A
+  backslash is an escape character only before the characters in escapable;
+  anywhere else it is a literal backslash."
+  [^String s i escapable]
+  (let [next-i (inc i)]
+    (and (< next-i (.length s))
+         (contains? escapable (.charAt s next-i)))))
+
 (defn- read-default
   "read-default works like replace-values, but it stops when it finds a }.
+  A backslash escapes $, \\ and }; before any other character it is literal.
   It returns [val end-pos], where val is the string read."
   [project ^String s orig-start start]
   (let [sb (StringBuilder.)]
@@ -27,7 +37,10 @@
                    (.append sb (str val))
                    (recur (inc end-pos) false))
               \} [(.toString sb) i]
-              \\ (recur (inc i) true)
+              \\ (if (escape? s i #{\$ \\ \}})
+                   (recur (inc i) true)
+                   (do (.append sb c)
+                       (recur (inc i) false)))
               (do (.append sb c)
                   (recur (inc i) false)))))))))
 
@@ -73,8 +86,12 @@
   project map. yyy expands recursively. The legal form ${xxx:-${xxx2:-yyy}}
   looks for xxx, then xxx2, then yyy.
 
-  replace-values also unquotes backslashed values. \"\\${:foo}\" becomes
-  the string \"${:foo}\", and \"\\\\${:foo}\" becomes \"\\[expansion]\".
+  A backslash is an escape character only before $ and before another
+  backslash. \"\\${:foo}\" becomes the string \"${:foo}\", and
+  \"\\\\${:foo}\" becomes \"\\[expansion]\". Before any other character,
+  and at the end of the string, a backslash stays as a literal backslash:
+  \"C:\\\\Users\" and \"\\\\d+\" pass through unchanged. Inside a default
+  value, a backslash also escapes the closing }.
 
   The form ${} is illegal."
   [project ^String s]
@@ -91,7 +108,10 @@
                 \$ (let [[val end-pos] (read-expansion project s (inc i))]
                        (.append sb (str val))
                        (recur (int (inc end-pos)) false))
-                \\ (recur (inc i) true)
+                \\ (if (escape? s i #{\$ \\})
+                     (recur (inc i) true)
+                     (do (.append sb c)
+                         (recur (inc i) false)))
                 (do (.append sb c)
                     (recur (inc i) false)))))))))
 
