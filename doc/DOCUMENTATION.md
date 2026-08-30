@@ -8,16 +8,16 @@ directory, or exit code through `project.clj`.
 
 ## Installation
 
-Put `[net.clojars.savya/lein-shell "1.0.3"]` in the `:plugins` vector of your `:user` profile
+Put `[net.clojars.savya/lein-shell "1.1.0"]` in the `:plugins` vector of your `:user` profile
 in `~/.lein/profiles.clj` to use lein shell for one user.
 
-Put `[net.clojars.savya/lein-shell "1.0.3"]` in the `:plugins` vector of `project.clj` to build this project with lein-shell.
+Put `[net.clojars.savya/lein-shell "1.1.0"]` in the `:plugins` vector of `project.clj` to build this project with lein-shell.
 If `project.clj` has no `:plugins` vector, use this form:
 
 ```clj
 (defproject your-project-here "version"
  ...
- :plugins [[net.clojars.savya/lein-shell "1.0.3"]]
+ :plugins [[net.clojars.savya/lein-shell "1.1.0"]]
  ...)
 ```
 
@@ -103,7 +103,7 @@ This example generates code before uberjaring, testing, and REPL use:
   :prep-tasks [["shell" "generator" "--in" "build/in.grammar"
                                     "--out" "src/out.clj"]
                "javac" "compile"]
-  :plugins [[net.clojars.savya/lein-shell "1.0.3"]])
+  :plugins [[net.clojars.savya/lein-shell "1.1.0"]])
 ```
 
 `generator --in build/in.grammar --out src/out.clj` runs before every in-project evaluation.
@@ -127,7 +127,7 @@ uses an API that the 1.6 JVM cannot use:
 ```clj
 (defproject package.name/project "0.1.0-SNAPSHOT"
   ...
-  :plugins [[net.clojars.savya/lein-shell "1.0.3"]]
+  :plugins [[net.clojars.savya/lein-shell "1.1.0"]]
   :aliases {"javadoc" ["shell" "javadoc" "-d" "javadoc"
                         "-sourcepath" "src/" "package.name"]
             "jar" ["do" "javadoc," "jar"]}}})

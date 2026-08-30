@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-30
+
 ### Fixed
 
 - Backslashes in command arguments are no longer eaten. A backslash was

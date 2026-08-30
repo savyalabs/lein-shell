@@ -1,4 +1,4 @@
-(defproject net.clojars.savya/lein-shell "1.0.3"
+(defproject net.clojars.savya/lein-shell "1.1.0"
   :description "Call shell from within Leiningen."
   :url "https://github.com/jsavyasachi/lein-shell"
   :license {:name "Eclipse Public License 1.0"
