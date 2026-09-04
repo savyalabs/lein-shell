@@ -2,7 +2,7 @@
 
 [![Clojars Project](https://img.shields.io/clojars/v/net.clojars.savya/lein-shell.svg)](https://clojars.org/net.clojars.savya/lein-shell)
 [![cljdoc](https://cljdoc.org/badge/net.clojars.savya/lein-shell)](https://cljdoc.org/d/net.clojars.savya/lein-shell/CURRENT)
-[![test](https://github.com/jsavyasachi/lein-shell/actions/workflows/test.yml/badge.svg)](https://github.com/jsavyasachi/lein-shell/actions/workflows/test.yml)
+[![test](https://github.com/savyalabs/lein-shell/actions/workflows/test.yml/badge.svg)](https://github.com/savyalabs/lein-shell/actions/workflows/test.yml)
 
 A Leiningen plugin that calls shell commands.
 
@@ -56,7 +56,7 @@ You can change this behavior and other settings.
 
 See [the documentation][documentation] for more information and examples.
 
-[documentation]: https://github.com/jsavyasachi/lein-shell/blob/main/doc/DOCUMENTATION.md
+[documentation]: https://github.com/savyalabs/lein-shell/blob/main/doc/DOCUMENTATION.md
 
 ## License
 
